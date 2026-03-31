@@ -364,6 +364,13 @@ export default function Home() {
         </div>
       </main>
 
+      {/* Footer */}
+      <footer className="border-t border-slate-200 bg-white py-4 mt-8">
+        <p className="text-center text-sm text-slate-500">
+          Powered by <span className="font-semibold text-slate-700">6amTech</span>, Developed by <span className="font-semibold text-slate-700">Sunny</span> within 10 minutes. Happy vibe coding!!
+        </p>
+      </footer>
+
       {/* Booking Modal */}
       {showModal && (
         <div className="modal-overlay" onClick={() => setShowModal(false)}>
