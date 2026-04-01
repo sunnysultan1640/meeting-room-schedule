@@ -21,8 +21,14 @@ body {
 /* Timeline grid */
 .timeline-grid {
   display: grid;
-  grid-template-columns: 70px repeat(3, 1fr);
+  grid-template-columns: 50px repeat(3, 1fr);
   position: relative;
+}
+
+@media (min-width: 640px) {
+  .timeline-grid {
+    grid-template-columns: 70px repeat(3, 1fr);
+  }
 }
 
 .time-slot {
@@ -31,11 +37,18 @@ body {
   display: flex;
   align-items: flex-start;
   justify-content: flex-end;
-  padding-right: 8px;
+  padding-right: 4px;
   padding-top: 0;
-  font-size: 12px;
+  font-size: 11px;
   color: #64748b;
   transform: translateY(-8px);
+}
+
+@media (min-width: 640px) {
+  .time-slot {
+    padding-right: 8px;
+    font-size: 12px;
+  }
 }
 
 .room-column {
@@ -56,16 +69,25 @@ body {
 
 .booking-block {
   position: absolute;
-  left: 4px;
-  right: 4px;
+  left: 2px;
+  right: 2px;
   border-radius: 6px;
-  padding: 4px 8px;
-  font-size: 12px;
+  padding: 3px 5px;
+  font-size: 11px;
   cursor: pointer;
   overflow: hidden;
   z-index: 10;
   transition: transform 0.1s, box-shadow 0.1s;
   border: 1px solid rgba(255,255,255,0.3);
+}
+
+@media (min-width: 640px) {
+  .booking-block {
+    left: 4px;
+    right: 4px;
+    padding: 4px 8px;
+    font-size: 12px;
+  }
 }
 
 .booking-block:hover {
@@ -81,24 +103,46 @@ body {
   background: rgba(0,0,0,0.4);
   backdrop-filter: blur(4px);
   display: flex;
-  align-items: center;
+  align-items: flex-end;
   justify-content: center;
   z-index: 100;
 }
 
+@media (min-width: 640px) {
+  .modal-overlay {
+    align-items: center;
+  }
+}
+
 .modal {
   background: white;
-  border-radius: 16px;
-  padding: 24px;
+  border-radius: 16px 16px 0 0;
+  padding: 20px;
   width: 100%;
   max-width: 420px;
+  max-height: 90vh;
+  overflow-y: auto;
   box-shadow: 0 25px 50px rgba(0,0,0,0.25);
-  animation: modalIn 0.2s ease-out;
+  animation: modalSlideUp 0.25s ease-out;
+}
+
+@media (min-width: 640px) {
+  .modal {
+    border-radius: 16px;
+    padding: 24px;
+    animation: modalIn 0.2s ease-out;
+    max-height: none;
+  }
 }
 
 @keyframes modalIn {
   from { opacity: 0; transform: scale(0.95) translateY(10px); }
   to { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+@keyframes modalSlideUp {
+  from { opacity: 0; transform: translateY(100%); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
 /* Current time line */

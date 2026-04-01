@@ -172,12 +172,12 @@ export default function Home() {
     <div className="min-h-screen">
       {/* Header */}
       <header className="bg-white border-b border-slate-200 sticky top-0 z-50">
-        <div className="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between">
+        <div className="max-w-7xl mx-auto px-3 sm:px-4 py-3 sm:py-4 flex items-center justify-between">
           <div>
-            <h1 className="text-xl font-bold text-slate-900">
+            <h1 className="text-lg sm:text-xl font-bold text-slate-900">
               Meeting Rooms
             </h1>
-            <p className="text-sm text-slate-500">Book a room in seconds</p>
+            <p className="text-xs sm:text-sm text-slate-500 hidden sm:block">Book a room in seconds</p>
           </div>
           <button
             onClick={() => {
@@ -191,38 +191,38 @@ export default function Home() {
               setError("");
               setShowModal(true);
             }}
-            className="bg-slate-900 text-white px-5 py-2.5 rounded-xl text-sm font-medium hover:bg-slate-800 transition-colors cursor-pointer"
+            className="bg-slate-900 text-white px-3 sm:px-5 py-2 sm:py-2.5 rounded-xl text-xs sm:text-sm font-medium hover:bg-slate-800 transition-colors cursor-pointer"
           >
             + New Booking
           </button>
         </div>
       </header>
 
-      <main className="max-w-7xl mx-auto px-4 py-6">
+      <main className="max-w-7xl mx-auto px-3 sm:px-4 py-4 sm:py-6">
         {/* Date Navigation */}
-        <div className="flex items-center justify-between mb-6">
-          <div className="flex items-center gap-3">
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-4 sm:mb-6">
+          <div className="flex items-center justify-center sm:justify-start gap-2 sm:gap-3">
             <button
               onClick={() => navigateDate(-1)}
-              className="w-9 h-9 rounded-lg border border-slate-200 flex items-center justify-center hover:bg-slate-50 transition-colors text-slate-600 cursor-pointer"
+              className="w-8 h-8 sm:w-9 sm:h-9 rounded-lg border border-slate-200 flex items-center justify-center hover:bg-slate-50 transition-colors text-slate-600 cursor-pointer"
             >
               &#8249;
             </button>
-            <div className="text-center min-w-[240px]">
-              <h2 className="text-lg font-semibold text-slate-900">
+            <div className="text-center">
+              <h2 className="text-sm sm:text-lg font-semibold text-slate-900">
                 {formatDisplayDate(selectedDate)}
               </h2>
             </div>
             <button
               onClick={() => navigateDate(1)}
-              className="w-9 h-9 rounded-lg border border-slate-200 flex items-center justify-center hover:bg-slate-50 transition-colors text-slate-600 cursor-pointer"
+              className="w-8 h-8 sm:w-9 sm:h-9 rounded-lg border border-slate-200 flex items-center justify-center hover:bg-slate-50 transition-colors text-slate-600 cursor-pointer"
             >
               &#8250;
             </button>
             {!isToday && (
               <button
                 onClick={goToToday}
-                className="ml-2 px-3 py-1.5 text-xs font-medium rounded-lg bg-blue-50 text-blue-600 hover:bg-blue-100 transition-colors cursor-pointer"
+                className="ml-1 sm:ml-2 px-2 sm:px-3 py-1 sm:py-1.5 text-xs font-medium rounded-lg bg-blue-50 text-blue-600 hover:bg-blue-100 transition-colors cursor-pointer"
               >
                 Today
               </button>
@@ -230,12 +230,12 @@ export default function Home() {
           </div>
 
           {/* Stats */}
-          <div className="flex gap-4 text-sm">
-            <div className="bg-white rounded-xl px-4 py-2 border border-slate-200">
+          <div className="flex justify-center sm:justify-end gap-3 sm:gap-4 text-xs sm:text-sm">
+            <div className="bg-white rounded-xl px-3 sm:px-4 py-1.5 sm:py-2 border border-slate-200">
               <span className="text-slate-500">Bookings:</span>{" "}
               <span className="font-semibold text-slate-900">{bookings.length}</span>
             </div>
-            <div className="bg-white rounded-xl px-4 py-2 border border-slate-200">
+            <div className="bg-white rounded-xl px-3 sm:px-4 py-1.5 sm:py-2 border border-slate-200">
               <span className="text-slate-500">Occupancy:</span>{" "}
               <span className="font-semibold text-slate-900">{occupancy}%</span>
             </div>
@@ -244,20 +244,20 @@ export default function Home() {
 
         {/* Room headers */}
         <div className="timeline-grid mb-0">
-          <div className="h-12" />
+          <div className="h-10 sm:h-12" />
           {rooms.map((room) => (
             <div
               key={room.id}
-              className="h-12 flex items-center px-3 border-l border-slate-200"
+              className="h-10 sm:h-12 flex items-center px-1.5 sm:px-3 border-l border-slate-200"
             >
               <div
-                className="w-3 h-3 rounded-full mr-2 flex-shrink-0"
+                className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full mr-1 sm:mr-2 flex-shrink-0"
                 style={{ backgroundColor: room.color }}
               />
-              <span className="font-semibold text-sm text-slate-800 truncate">
+              <span className="font-semibold text-[11px] sm:text-sm text-slate-800 truncate">
                 {room.name}
               </span>
-              <span className="ml-2 text-xs text-slate-400">
+              <span className="ml-1 sm:ml-2 text-[10px] sm:text-xs text-slate-400 hidden sm:inline">
                 {getRoomBookings(room.id).length} bookings
               </span>
             </div>
@@ -322,7 +322,7 @@ export default function Home() {
         </div>
 
         {/* Quick Room Summary Cards */}
-        <div className="grid grid-cols-3 gap-4 mt-6">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4 mt-4 sm:mt-6">
           {rooms.map((room) => {
             const rb = getRoomBookings(room.id);
             const nextBooking = rb.find((b) => {
@@ -365,8 +365,8 @@ export default function Home() {
       </main>
 
       {/* Footer */}
-      <footer className="border-t border-slate-200 bg-white py-4 mt-8">
-        <p className="text-center text-sm text-slate-500">
+      <footer className="border-t border-slate-200 bg-white py-3 sm:py-4 mt-6 sm:mt-8">
+        <p className="text-center text-xs sm:text-sm text-slate-500 px-4">
           Powered by <span className="font-semibold text-slate-700">6amTech</span>, Developed by <span className="font-semibold text-slate-700">Sunny</span> within 10 minutes. Happy vibe coding!!
         </p>
       </footer>
