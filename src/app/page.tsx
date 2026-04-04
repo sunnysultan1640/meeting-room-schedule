@@ -36,7 +36,10 @@ function timeToMinutes(time: string): number {
 }
 
 function formatDate(date: Date): string {
-  return date.toISOString().split("T")[0];
+  const y = date.getFullYear();
+  const m = String(date.getMonth() + 1).padStart(2, "0");
+  const d = String(date.getDate()).padStart(2, "0");
+  return `${y}-${m}-${d}`;
 }
 
 function formatDisplayDate(date: Date): string {
@@ -51,7 +54,7 @@ function formatDisplayDate(date: Date): string {
 export default function Home() {
   const [rooms, setRooms] = useState<Room[]>([]);
   const [bookings, setBookings] = useState<Booking[]>([]);
-  const [selectedDate, setSelectedDate] = useState<Date>(new Date());
+  const [selectedDate, setSelectedDate] = useState<Date | null>(null);
   const [showModal, setShowModal] = useState(false);
   const [showBookingDetail, setShowBookingDetail] = useState<Booking | null>(null);
   const [formData, setFormData] = useState({
@@ -63,11 +66,17 @@ export default function Home() {
   });
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
-  const [currentTime, setCurrentTime] = useState(new Date());
+  const [currentTime, setCurrentTime] = useState<Date | null>(null);
 
-  const dateStr = formatDate(selectedDate);
+  useEffect(() => {
+    setSelectedDate(new Date());
+    setCurrentTime(new Date());
+  }, []);
+
+  const dateStr = selectedDate ? formatDate(selectedDate) : null;
 
   const fetchData = useCallback(async () => {
+    if (!dateStr) return;
     const [roomsRes, bookingsRes] = await Promise.all([
       fetch("/api/rooms"),
       fetch(`/api/bookings?date=${dateStr}`),
@@ -91,7 +100,7 @@ export default function Home() {
   }, []);
 
   const navigateDate = (days: number) => {
-    const d = new Date(selectedDate);
+    const d = new Date(selectedDate!);
     d.setDate(d.getDate() + days);
     setSelectedDate(d);
   };
@@ -141,8 +150,8 @@ export default function Home() {
     fetchData();
   };
 
-  const isToday = formatDate(selectedDate) === formatDate(new Date());
-  const now = currentTime;
+  const isToday = selectedDate ? formatDate(selectedDate) === formatDate(new Date()) : false;
+  const now = currentTime ?? new Date();
   const currentMinutes = now.getHours() * 60 + now.getMinutes();
   const timelineStart = START_HOUR * 60;
   const timelineEnd = END_HOUR * 60;
@@ -169,7 +178,7 @@ export default function Home() {
   const occupancy = totalSlots > 0 ? Math.round((bookedSlots / totalSlots) * 100) : 0;
 
   return (
-    <div className="min-h-screen" suppressHydrationWarning>
+    <div className="min-h-screen">
       {/* Header */}
       <header className="bg-white border-b border-slate-200 sticky top-0 z-50">
         <div className="max-w-7xl mx-auto px-3 sm:px-4 py-3 sm:py-4 flex items-center justify-between">
@@ -209,8 +218,8 @@ export default function Home() {
               &#8249;
             </button>
             <div className="text-center">
-              <h2 className="text-sm sm:text-lg font-semibold text-slate-900" suppressHydrationWarning>
-                {formatDisplayDate(selectedDate)}
+              <h2 className="text-sm sm:text-lg font-semibold text-slate-900">
+                {selectedDate ? formatDisplayDate(selectedDate) : ""}
               </h2>
             </div>
             <button
